@@ -93,7 +93,7 @@ AS
          RAISE_APPLICATION_ERROR(-20001,'err');
          
       END IF;
-      raise_application_error(-20001,sdo_output.sdo_point.X || ' ' || sdo_output.sdo_point.Y);
+      
       RETURN sdo_output;
    
    END devolve_point;
