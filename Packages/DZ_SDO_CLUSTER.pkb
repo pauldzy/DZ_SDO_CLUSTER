@@ -37,6 +37,22 @@ AS
             ,p_tolerance
          );
          
+         IF sdo_output IS NULL
+         THEN
+             sdo_output := MDSYS.SDO_GEOMETRY(
+                2001
+               ,p_input.SDO_SRID
+               ,MDSYS.SDO_POINT_TYPE(
+                    p_input.SDO_ORDINATES(1)
+                   ,p_input.SDO_ORDINATES(2)
+                   ,NULL
+                )
+               ,NULL
+               ,NULL
+            );
+            
+         END IF;
+      
       ELSIF p_input.get_gtype() IN (2,4,5,6)
       AND p_geom_devolve = 'FAST'
       THEN
@@ -77,7 +93,7 @@ AS
          RAISE_APPLICATION_ERROR(-20001,'err');
          
       END IF;
-      
+      raise_application_error(-20001,sdo_output.sdo_point.X || ' ' || sdo_output.sdo_point.Y);
       RETURN sdo_output;
    
    END devolve_point;
